@@ -16,7 +16,10 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
     - name:  Install dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
-      run: composer install --no-progress --no-scripts
+      run: |
+        composer install --no-progress --no-scripts
+        composer require sensiolabs/security-checker
+      run:
   security_checker:
     name: Security Checker
     runs-on: ubuntu-latest
@@ -31,4 +34,4 @@ jobs:
           path: vendor/
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
       - name: Check for vulnerabilities
-        run: php security-checker.phar security:check composer.lock
+        run: php bin/console security:check
