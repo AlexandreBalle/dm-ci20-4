@@ -1,0 +1,11 @@
+name: Hadolint
+on: push
+
+jobs:
+  hadolint:
+    name: Run hadolint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: curl -sSL https://get.docker.com | sh
+      - run: docker run --rm -i hadolint/hadolint < Dockerfile
